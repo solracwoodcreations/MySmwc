@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solrac Midnight Wood Creations</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://kit.fontawesome.com/d02d164750.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <!-- Sidebar (Mobile) -->
+      <ul class="sidebar">
+        <li onclick="hideSidebar()">
+          <a class="icon-button xmark" href="#">
+            <i class="fa-solid fa-xmark" style="color: black;"></i>
+          </a>
+        </li>
+        <li><a href="blog1.html">About</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="cart.html">Product</a></li>
+        <li><a href="#photos">Photos</a></li>
+      </ul>
+
+      <!-- Main Nav -->
+      <ul>
+        <li><a href="index.html">SMWC</a></li>
+        <li class="hideOnMobile"><a href="#blog">Blog</a></li>
+        <li class="hideOnMobile"><a href="blog1.html">About</a></li>
+        <li class="hideOnMobile"><a href="#vlog">Vlog</a></li>
+        <li class="hideOnMobile"><a href="#photos">Photos</a></li>
+        <li class="menu-button" onclick="showSidebar()">
+          <a class="icon-button bars" href="#">
+            <i class="fa-solid fa-bars" style="color: black;"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>WELCOME TO <span class="colored-word">SMWC</span> WHERE I CREATE FUNCTIONAL ART</h1>
+    <div class="logo">
+      <center><img src="images/solracrb.jpeg" alt="SMWC Logo" /></center>
+    </div>
+    <center><h2>I build custom handmade functional wood decor</h2></center>
+    <center><p>Most of my work is made of refurbished and donated scraps of exotic hard woods...</p></center>
+
+    <!-- Blog Section -->
+    <section id="blog">
+      <!-- Add your blog cards here -->
+    </section>
+
+    <!-- Vlog Section -->
+    <section id="vlog">
+      <center>
+        <div class="video">
+          <h3>Smoking Pipe</h3>
+          <iframe width="300" height="450" src="https://player.vimeo.com/video/1111128530?badge=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+      </center>
+      <div class="video">
+        <br />
+        <h3>Test video</h3>
+        <video width="300" height="450" src="https://raw.githubusercontent.com/solracwoodcreations/newsite/main/images/testvid.mov" controls></video>
+      </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section id="photos">
+      <center><h2>Photo Gallery</h2></center>
+      <div class="carousel-container">
+        <ul class="carousel-track">
+          <li class="carousel-slide"><img src="images/IMG_4371.jpeg" alt="Image 1" /></li>
+          <li class="carousel-slide"><img src="images/bagclips.jpeg" alt="Image 2" /></li>
+          <li class="carousel-slide"><img src="images/graceduo.jpeg" alt="Image 3" /></li>
+          <li class="carousel-slide"><img src="images/grace.jpeg" alt="Image 4" /></li>
+        </ul>
+        <div class="carousel-navigation">
+          <button class="carousel-button prev">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="carousel-indicators"></div>
+          <button class="carousel-button next">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="footer-content">
+      <h3 class="connect">Connect</h3>
+      <div class="footer-icons">
+        <a href="tel:1234567890" class="icon-button phone"><i class="fas fa-phone"></i></a>
+        <a href="mailto:test@example.com" class="icon-button envelope"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function showSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.add('active');
+    }
+
+    function hideSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const track = document.querySelector('.carousel-track');
+      const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+      const nextButton = document.querySelector('.carousel-button.next');
+      const prevButton = document.querySelector('.carousel-button.prev');
+      const indicatorsContainer = document.querySelector('.carousel-indicators');
+      let currentSlideIndex = 0;
+
+      slides.forEach((_, index) => {
+        const indicator = document.createElement('div');
+        indicator.classList.add('indicator');
+        indicator.addEventListener('click', () => moveToSlide(index));
+        indicatorsContainer.appendChild(indicator);
+      });
+
+      const indicators = Array.from(indicatorsContainer.querySelectorAll('.indicator'));
+
+      const updateCarousel = () => {
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        track.scrollLeft = slideWidth * currentSlideIndex;
+        updateIndicators();
+      };
+
+      const updateIndicators = () => {
+        indicators.forEach((indicator, index) => {
+          indicator.classList.toggle('active', index === currentSlideIndex);
+        });
+      };
+
+      const moveToSlide = (targetIndex) => {
+        currentSlideIndex = targetIndex;
+        updateCarousel();
+      };
+
+      nextButton.addEventListener('click', () => {
+        moveToSlide((currentSlideIndex + 1) % slides.length);
+      });
+
+      prevButton.addEventListener('click', () => {
+        moveToSlide((currentSlideIndex - 1 + slides.length) % slides.length);
+      });
+
+      track.addEventListener('scroll', () => {
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        const newIndex = Math.round(track.scrollLeft / slideWidth);
+        if (newIndex !== currentSlideIndex) {
+          currentSlideIndex = newIndex;
+          updateIndicators();
+        }
+      });
+
+      updateCarousel();
+    });
+  </script>
+</body>
+</html>
